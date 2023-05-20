@@ -1,17 +1,27 @@
-from rest_framework.viewsets import ModelViewSet
 from .serializers import *
 from .models import *
-from rest_framework.response import Response
 
-class UserViewSet(ModelViewSet):
+from rest_framework import generics
+
+class UserRetreiveView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'name'
+
+class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class BlogViewSet(ModelViewSet):
-    queryset = Blog.objects.all()
-    serializer_class = BlogSerializer
+class UserCreateView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+class UserUpdateView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'name'
+
+class UserDeleteView(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'name'
